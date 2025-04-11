@@ -109,7 +109,7 @@ function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {errors.name && <p className="error">{errors.name}</p>}
+          {errors.name && <p className="error" id="name-error">{errors.name}</p>}
 
           <input
             type="text"
@@ -117,7 +117,7 @@ function RegisterPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          {errors.username && <p className="error">{errors.username}</p>}
+          {errors.username && <p className="error" id="username-error">{errors.username}</p>}
 
           <input
             type="email"
@@ -125,7 +125,7 @@ function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errors.email && <p className="error">{errors.email}</p>}
+          {errors.email && <p className="error" id="email-error">{errors.email}</p>}
 
           <input
             type="password"
@@ -133,7 +133,7 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && <p className="error">{errors.password}</p>}
+          {errors.password && <p className="error" id="password-error">{errors.password}</p>}
 
           <input
             type="text"
@@ -141,7 +141,7 @@ function RegisterPage() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          {errors.phone && <p className="error">{errors.phone}</p>}
+          {errors.phone && <p className="error" id="phone-error">{errors.phone}</p>}
 
           <input
             type="text"
@@ -149,7 +149,7 @@ function RegisterPage() {
             value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
           />
-          {errors.avatarUrl && <p className="error">{errors.avatarUrl}</p>}
+          {errors.avatarUrl && <p className="error" id="avatarUrl-error">{errors.avatarUrl}</p>}
 
           <label className="checkbox-label">
             <input
@@ -159,7 +159,7 @@ function RegisterPage() {
             />
             Saya setuju dengan <span onClick={() => setShowTerms(true)} className="terms-link">Syarat & Ketentuan</span>
           </label>
-          {errors.agree && <p className="error">{errors.agree}</p>}
+          {errors.agree && <p className="error" id="agree-error">{errors.agree}</p>}
 
           <button type="submit">Daftar</button>
         </form>
