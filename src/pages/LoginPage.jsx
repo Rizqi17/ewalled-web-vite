@@ -64,7 +64,11 @@ function LoginPage() {
             }}
             className={emailError ? "input-error" : ""}
           />
-          {emailError && <p className="error-text">{emailError}</p>}
+          {emailError && (
+            <p className="error-text" id="email-error">
+              {emailError}
+            </p>
+          )}
 
           <input
             type="password"
@@ -76,7 +80,11 @@ function LoginPage() {
             }}
             className={passwordError ? "input-error" : ""}
           />
-          {passwordError && <p className="error-text">{passwordError}</p>}
+          {passwordError && (
+            <p className="error-text" id="password-error">
+              {passwordError}
+            </p>
+          )}
 
           <button type="submit">Login</button>
         </form>
