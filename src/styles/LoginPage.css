@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   background-color: #f9f9f9;
+  overflow: hidden;
 }
 
 .login-left {
@@ -9,8 +10,9 @@
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  overflow-y: auto;
 }
 
 .logo {
@@ -23,6 +25,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .login-form input {
