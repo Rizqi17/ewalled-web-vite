@@ -120,7 +120,6 @@ function RegisterPage() {
           {errors.username && <p className="error" id="username-error">{errors.username}</p>}
 
           <input
-            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

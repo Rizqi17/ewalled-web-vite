@@ -55,7 +55,6 @@ function LoginPage() {
         <img src={logo} alt="logo" className="logo" />
         <form className="login-form" onSubmit={handleLogin}>
           <input
-            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => {
