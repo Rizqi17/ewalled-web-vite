@@ -9,8 +9,8 @@ import FinancialPage from "./pages/FinancialPage";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/transfer" element={<TransferPage />} />
       <Route path="/topup" element={<TopUpPage />} />
