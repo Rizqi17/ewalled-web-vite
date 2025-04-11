@@ -1,0 +1,20 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #fafbfd;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: #0061ff;
+  font-weight: bold;
+}
+
+.container {
+  padding-left: 5%;
+  padding-right: 5%;
+}
