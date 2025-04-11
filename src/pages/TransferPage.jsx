@@ -4,15 +4,28 @@ import AmountInput from "../components/AmountInput";
 import NoteInput from "../components/NoteInput";
 import PrimaryButton from "../components/PrimaryButton";
 import searchIcon from "../assets/search.png";
-
 import { useState } from "react";
 
 function TransferPage() {
   const [accountNumber, setAccountNumber] = useState("");
-  
+  const [showPopup, setShowPopup] = useState(false);
+  const [accountName, setAccountName] = useState("");
+
   const handleSearch = () => {
     console.log("Mencari akun:", accountNumber);
-    // Tambahkan logika validasi akun di sini
+
+    // Simulasi data, nanti bisa diubah ke API/logic validasi nyata
+    if (accountNumber === "1234567890") {
+      setAccountName("Budi Santoso");
+    } else {
+      setAccountName("Nama Tidak Ditemukan");
+    }
+
+    setShowPopup(true);
+  };
+
+  const handleConfirm = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -23,7 +36,7 @@ function TransferPage() {
           <h1 className="transfer-heading">Transfer</h1>
           <div className="transfer-card">
 
-            {/* GANTI DropdownInput dengan ini */}
+            {/* Search account number */}
             <div className="account-search">
               <label>To (Account Number)</label>
               <div className="search-input-wrapper">
@@ -39,7 +52,6 @@ function TransferPage() {
               </div>
             </div>
 
-            {/* Komponen lain tetap */}
             <AmountInput
               label="Amount"
               value="IDR 150.000,00"
@@ -50,6 +62,22 @@ function TransferPage() {
           </div>
         </div>
       </div>
+
+      {/* Popup */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h2 className="popup-header">Account Info</h2>
+            <div className="popup-content">
+              <p><strong>Account Number:</strong> {accountNumber}</p>
+              <p><strong>Name:</strong> {accountName}</p>
+            </div>
+            <button className="confirm-button" onClick={handleConfirm}>
+              Confirm
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
