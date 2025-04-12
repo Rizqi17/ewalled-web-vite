@@ -63,3 +63,372 @@
   height: 20px;
   filter: brightness(0) invert(1); /* agar ikon jadi putih di atas background biru */
 }
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.popup-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.popup-content {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.confirm-button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup-content {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.popup-field {
+  margin-bottom: 10px;
+}
+
+.popup-label {
+  font-weight: bold;     /* teks dibold */
+  margin-bottom: 1px;    /* jarak antara teks dan value jadi lebih rapat */
+}
+
+.popup-value {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Popup umum */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+/* Popup error (kedua) */
+.error-popup-box {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-popup-content {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.error-popup-image {
+  width: 180px;
+  height: auto;
+}
+
+.error-popup-text {
+  flex: 1;
+  text-align: center;
+}
+
+.error-title {
+  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.error-description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.confirm-button {
+  padding: 10px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.success-popup-box {
+  background-color: #fff;
+  width: 600px;
+  display: flex;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.success-popup-content {
+  display: flex;
+  align-items: center;
+}
+
+.success-popup-image {
+  width: 180px;
+  margin-right: 20px;
+}
+
+.success-popup-text {
+  flex: 1;
+  text-align: center;
+}
+
+.success-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.success-description {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.confirm-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Popup Boxes (Success & Failed & Error) */
+.success-popup-box,
+.failed-popup-box,
+.error-popup-box {
+  background-color: #fff;
+  width: 600px;
+  display: flex;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: fadeIn 0.3s ease;
+}
+
+.success-popup-content,
+.failed-popup-content,
+.error-popup-content {
+  display: flex;
+  align-items: center;
+}
+
+.success-popup-image,
+.failed-popup-image,
+.error-popup-image {
+  width: 180px;
+  margin-right: 20px;
+}
+
+.success-popup-text,
+.failed-popup-text,
+.error-popup-text {
+  flex: 1;
+  text-align: center;
+}
+
+.success-title,
+.failed-title,
+.error-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.success-description,
+.failed-description,
+.error-description {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Button Style */
+.confirm-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Popup overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Common popup box styles */
+.popup-box,
+.error-popup-box,
+.success-popup-box,
+.failed-popup-box {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.popup-header {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.popup-content {
+  margin-bottom: 20px;
+}
+
+.popup-field {
+  margin-bottom: 10px;
+}
+
+.popup-label {
+  font-weight: bold;
+  margin: 0;
+}
+
+.popup-value {
+  margin: 0;
+}
+
+.confirm-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Success and failed popup layouts */
+.success-popup-content,
+.failed-popup-content,
+.error-popup-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.success-popup-image,
+.failed-popup-image,
+.error-popup-image {
+  width: 150px;
+  height: auto;
+}
+
+.success-popup-text,
+.failed-popup-text,
+.error-popup-text {
+  text-align: center;
+  flex: 1;
+}
+
+.success-title,
+.failed-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.success-description,
+.failed-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.error-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.error-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Optional: Responsive */
+@media (max-width: 480px) {
+  .success-popup-content,
+  .failed-popup-content,
+  .error-popup-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .success-popup-image,
+  .failed-popup-image,
+  .error-popup-image {
+    width: 100px;
+  }
+}
+

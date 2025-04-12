@@ -1,14 +1,18 @@
 import "../styles/components/DropdownInput.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function DropdownInput({ label, options = [], defaultValue, onChange }) {
   const [selected, setSelected] = useState(defaultValue || options[0]);
 
+  useEffect(() => {
+    if (onChange) onChange(selected);
+  }, [selected]);
+
   const handleChange = (e) => {
     const value = e.target.value;
     setSelected(value);
-    if (onChange) onChange(value);
   };
+
   return (
     <div className="dropdown-input">
       <div className="dropdown-label">{label}</div>
@@ -17,6 +21,7 @@ function DropdownInput({ label, options = [], defaultValue, onChange }) {
         value={selected}
         onChange={handleChange}
       >
+        <option value="">Select Method</option> {/* Tambahkan opsi default */}
         {options.map((option, index) => (
           <option value={option} key={index}>
             {option}

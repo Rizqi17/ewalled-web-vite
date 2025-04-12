@@ -155,7 +155,6 @@ function RegisterPage() {
           )}
 
           <input
-            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
