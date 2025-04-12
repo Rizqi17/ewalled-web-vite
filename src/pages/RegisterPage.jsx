@@ -4,6 +4,7 @@ import logo from "../assets/logo-loginregister.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 import { useState } from "react";
+import axios from "axios";
 
 const existingUsers = [
   { email: "test@gmail.com", username: "test", password: "Password123!" },
@@ -22,19 +23,23 @@ function RegisterPage() {
   const [agree, setAgree] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [errors, setErrors] = useState({});
+  const [canSubmit, setCanSubmit] = useState(false);
 
   const validate = () => {
     const newErrors = {};
-    const nameRegex = /^[\p{L}\p{Mn}\p{Pd}'\u2019]+(?: [\p{L}\p{Mn}\p{Pd}'\u2019]+)*$/u;
+    const nameRegex =
+      /^[\p{L}\p{Mn}\p{Pd}'\u2019]+(?: [\p{L}\p{Mn}\p{Pd}'\u2019]+)*$/u;
     const usernameRegex = /^[A-Za-z0-9_]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*\d).{8,}$/;
-    const urlPattern = /^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,200})([\/\w\-\.]*)*\/?$/;
+    const urlPattern =
+      /^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,200})([\/\w\-\.]*)*\/?$/;
 
     if (!name.trim()) {
       newErrors.name = "Fullname is required.";
     } else if (!nameRegex.test(name)) {
-      newErrors.name = "Only letters, spaces, hyphens, and apostrophes allowed.";
+      newErrors.name =
+        "Only letters, spaces, hyphens, and apostrophes allowed.";
     }
 
     if (!username.trim()) {
@@ -56,7 +61,8 @@ function RegisterPage() {
     if (!password) {
       newErrors.password = "Password is required.";
     } else if (!passwordRegex.test(password)) {
-      newErrors.password = "Min 8 chars, must include number & special character.";
+      newErrors.password =
+        "Min 8 chars, must include number & special character.";
     }
 
     if (phone.trim()) {
@@ -84,18 +90,41 @@ function RegisterPage() {
   const handleRegister = (e) => {
     e.preventDefault();
     if (validate()) {
+      setCanSubmit(true);
       setShowTerms(true);
     }
   };
 
-  const handleAgree = () => {
-    console.log("Registered:", { name, username, email, password, phone, avatarUrl });
-    setShowTerms(false);
-    navigate("/login");
+  const handleAgree = async () => {
+    if (!canSubmit) return; // safety guard
+    try {
+      const response = await axios.post(
+        "https://ewalled-api-production.up.railway.app/api/auth/register", // for production
+        // "http://localhost:8080/api/auth/register", // for local testing
+        {
+          email,
+          fullname: name,
+          password,
+          username,
+          phoneNumber: phone,
+          avatarUrl,
+        }
+      );
+      console.log(response.data); // log
+      setShowTerms(false);
+      navigate("/login");
+    } catch (error) {
+      console.error(
+        "Registration error:",
+        error.response?.data || error.message
+      );
+      setShowTerms(false);
+    }
   };
 
   const handleCancel = () => {
     setShowTerms(false);
+    setCanSubmit(false);
   };
 
   return (
@@ -109,7 +138,11 @@ function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {errors.name && <p className="error" id="name-error">{errors.name}</p>}
+          {errors.name && (
+            <p className="error" id="name-error">
+              {errors.name}
+            </p>
+          )}
 
           <input
             type="text"
@@ -117,7 +150,11 @@ function RegisterPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          {errors.username && <p className="error" id="username-error">{errors.username}</p>}
+          {errors.username && (
+            <p className="error" id="username-error">
+              {errors.username}
+            </p>
+          )}
 
           <input
             type="email"
@@ -125,7 +162,11 @@ function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errors.email && <p className="error" id="email-error">{errors.email}</p>}
+          {errors.email && (
+            <p className="error" id="email-error">
+              {errors.email}
+            </p>
+          )}
 
           <input
             type="password"
@@ -133,7 +174,11 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && <p className="error" id="password-error">{errors.password}</p>}
+          {errors.password && (
+            <p className="error" id="password-error">
+              {errors.password}
+            </p>
+          )}
 
           <input
             type="text"
@@ -141,7 +186,11 @@ function RegisterPage() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          {errors.phone && <p className="error" id="phone-error">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="error" id="phone-error">
+              {errors.phone}
+            </p>
+          )}
 
           <input
             type="text"
@@ -149,7 +198,11 @@ function RegisterPage() {
             value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
           />
-          {errors.avatarUrl && <p className="error" id="avatarUrl-error">{errors.avatarUrl}</p>}
+          {errors.avatarUrl && (
+            <p className="error" id="avatarUrl-error">
+              {errors.avatarUrl}
+            </p>
+          )}
 
           <label className="checkbox-label">
             <input
@@ -157,9 +210,16 @@ function RegisterPage() {
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
             />
-            Saya setuju dengan <span onClick={() => setShowTerms(true)} className="terms-link">Syarat & Ketentuan</span>
+            Saya setuju dengan{" "}
+            <span onClick={() => setShowTerms(true)} className="terms-link">
+              Syarat & Ketentuan
+            </span>
           </label>
-          {errors.agree && <p className="error" id="agree-error">{errors.agree}</p>}
+          {errors.agree && (
+            <p className="error" id="agree-error">
+              {errors.agree}
+            </p>
+          )}
 
           <button type="submit">Daftar</button>
         </form>
@@ -177,10 +237,14 @@ function RegisterPage() {
             <h2>Syarat & Ketentuan</h2>
             <div className="terms-content">
               <p>
-                Dengan mendaftar, Anda menyetujui syarat dan ketentuan penggunaan layanan e-wallet ini, termasuk pengelolaan data pribadi, keamanan transaksi, dan kepatuhan terhadap hukum yang berlaku.
+                Dengan mendaftar, Anda menyetujui syarat dan ketentuan
+                penggunaan layanan e-wallet ini, termasuk pengelolaan data
+                pribadi, keamanan transaksi, dan kepatuhan terhadap hukum yang
+                berlaku.
               </p>
               <p>
-                Pastikan Anda telah membaca dan memahami ketentuan yang berlaku sebelum melanjutkan pendaftaran.
+                Pastikan Anda telah membaca dan memahami ketentuan yang berlaku
+                sebelum melanjutkan pendaftaran.
               </p>
             </div>
             <div className="terms-buttons">
