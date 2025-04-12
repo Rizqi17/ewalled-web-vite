@@ -4,6 +4,8 @@ import logo from "../assets/logo-loginregister.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 import { useState } from "react";
+import axios from "axios";
+
 
 const existingUsers = [
   { email: "test@gmail.com", username: "test", password: "Password123!" },
@@ -88,10 +90,26 @@ function RegisterPage() {
     }
   };
 
-  const handleAgree = () => {
-    console.log("Registered:", { name, username, email, password, phone, avatarUrl });
-    setShowTerms(false);
-    navigate("/login");
+  const handleAgree = async () => {
+    try {
+      const response = await axios.post("https://ewalled-api-production.up.railway.app/api/auth/register", {
+        name,
+        username,
+        email,
+        password,
+        phone,
+        avatarUrl,
+      });
+
+      console.log("Berhasil daftar:", response.data);
+      alert("Registrasi berhasil!");
+      setShowTerms(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Gagal daftar:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Registrasi gagal, silakan coba lagi.");
+      setShowTerms(false);
+    }
   };
 
   const handleCancel = () => {
