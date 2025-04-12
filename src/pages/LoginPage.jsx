@@ -10,7 +10,7 @@ const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
+  const { setData } = useAuthStore(); // user data and wllet data
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -42,7 +42,7 @@ function LoginPage() {
         }
       );
 
-      setUser({
+      setData({
         user: data.user,
         wallet: data.wallet,
       });

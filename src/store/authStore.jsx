@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Check for persisted user & wallet
 const storedData = localStorage.getItem("auth");
 const parsedData = storedData ? JSON.parse(storedData) : null;
 

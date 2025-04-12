@@ -12,15 +12,18 @@ function HomePage() {
   const wallet = useAuthStore((state) => state.wallet);
 
   useEffect(() => {
-    console.log("Logged in user:", user.username);
-    console.log("wallet:", wallet.balance);
-  }, [user]);
+    if (user && wallet) {
+      console.log("Logged in user:", user.fullname);
+      console.log("Wallet balance:", wallet.balance);
+      console.log(user.avatarUrl);
+    }
+  }, [user, wallet]);
   return (
     <>
       <Nav />
       <div className="container">
-        <Greeting avatar={avatar} />
-        <AccountInfoCard />
+        <Greeting user={user} />
+        <AccountInfoCard wallet={wallet} />
         <TransactionTable />
       </div>
     </>
