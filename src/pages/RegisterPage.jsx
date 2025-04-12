@@ -6,11 +6,6 @@ import "../styles/RegisterPage.css";
 import { useState } from "react";
 import axios from "axios";
 
-const existingUsers = [
-  { email: "test@gmail.com", username: "test", password: "Password123!" },
-  { email: "chelsea@gmail.com", password: "Password123!" },
-];
-
 function RegisterPage() {
   const navigate = useNavigate();
 
@@ -24,9 +19,8 @@ function RegisterPage() {
   const [showTerms, setShowTerms] = useState(false);
   const [errors, setErrors] = useState({});
   const [canSubmit, setCanSubmit] = useState(false);
-
+  const newErrors = {};
   const validate = () => {
-    const newErrors = {};
     const nameRegex =
       /^[\p{L}\p{Mn}\p{Pd}'\u2019]+(?: [\p{L}\p{Mn}\p{Pd}'\u2019]+)*$/u;
     const usernameRegex = /^[A-Za-z0-9_]+$/;
@@ -46,16 +40,12 @@ function RegisterPage() {
       newErrors.username = "Username is required.";
     } else if (!usernameRegex.test(username)) {
       newErrors.username = "Only letters, numbers, and _ allowed.";
-    } else if (existingUsers.some((u) => u.username === username)) {
-      newErrors.username = "Username already taken.";
     }
 
     if (!email.trim()) {
       newErrors.email = "Email is required.";
     } else if (!emailRegex.test(email)) {
       newErrors.email = "Invalid email format.";
-    } else if (existingUsers.some((u) => u.email === email)) {
-      newErrors.email = "Email already registered.";
     }
 
     if (!password) {
@@ -114,10 +104,18 @@ function RegisterPage() {
       setShowTerms(false);
       navigate("/login");
     } catch (error) {
+      const msg = error.response?.data?.message;
+      if (msg?.toLowerCase().includes("email")) {
+        newErrors.email = msg;
+      }
+      if (msg?.toLowerCase().includes("username")) {
+        newErrors.username = msg;
+      }
       console.error(
         "Registration error:",
         error.response?.data || error.message
       );
+      setErrors((prev) => ({ ...prev, ...newErrors }));
       setShowTerms(false);
     }
   };
