@@ -13,6 +13,14 @@ const useAuthStore = create((set) => ({
     set(data);
   },
 
+  updateWalletBalance: (newBalance) =>
+    set((state) => ({
+      wallet: {
+        ...state.wallet,
+        balance: newBalance,
+      },
+    })),
+
   logout: () => {
     localStorage.removeItem("auth");
     set({ user: null, wallet: null });

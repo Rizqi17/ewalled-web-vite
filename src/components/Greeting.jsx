@@ -24,14 +24,7 @@ function Greeting({ user }) {
           <h3>{capitalizedFullName}</h3>
           <p>Personal Account</p>
         </div>
-        <img
-          src={
-            user?.avatarUrl ||
-            `https://avatar.iran.liara.run/username?username=${user?.fullname}`
-          }
-          height="100px"
-          width="100px"
-        />
+        <img src={user.avatarUrl} height="100px" width="100px" />
       </div>
     </section>
   );

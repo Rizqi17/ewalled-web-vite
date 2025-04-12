@@ -10,11 +10,14 @@ import useAuthStore from "../store/authStore";
 function HomePage() {
   const user = useAuthStore((state) => state.user);
   const wallet = useAuthStore((state) => state.wallet);
+  if (!user.avatarUrl) {
+    user.avatarUrl = `https://avatar.iran.liara.run/username?username=${user?.fullname}`;
+  }
 
   useEffect(() => {
     if (user && wallet) {
-      console.log("Logged in user:", user.fullname);
-      console.log("Wallet balance:", wallet.balance);
+      console.log("Logged in user:", user);
+      console.log("Wallet balance:", wallet);
       console.log(user.avatarUrl);
     }
   }, [user, wallet]);
