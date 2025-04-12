@@ -25,11 +25,27 @@ function TransferPage() {
   const { wallet, updateWalletBalance } = useAuthStore();
   const balance = wallet.balance;
 
-  const handleSearch = () => {
-    if (accountNumber === "1234567890") {
-      setAccountName("Budi Santoso");
+  const handleSearch = async () => {
+    if (!accountNumber.trim() || !/^\d+$/.test(accountNumber)) {
+      setErrors({
+        accountNumber: "Please enter a valid numeric account number.",
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://ewalled-api-production.up.railway.app/api/wallets/check?accountNumber=${accountNumber}`
+      );
+
+      console.log(accountNumber);
+      const walletData = response.data;
+      setAccountName(walletData.fullName);
       setShowPopup(true);
-    } else {
+      setErrors({});
+    } catch (error) {
+      console.error("Account not found:", error);
+      setAccountName("");
       setShowPopupError(true);
     }
   };
