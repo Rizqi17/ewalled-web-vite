@@ -7,7 +7,7 @@ const useAuthStore = create((set) => ({
   user: parsedData?.user || null,
   wallet: parsedData?.wallet || null,
 
-  setUser: ({ user, wallet }) => {
+  setData: ({ user, wallet }) => {
     const data = { user, wallet };
     localStorage.setItem("auth", JSON.stringify(data));
     set(data);
