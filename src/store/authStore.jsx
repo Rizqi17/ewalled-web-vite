@@ -1,19 +1,22 @@
 import { create } from "zustand";
 
-// Check for persisted user
-const storedUser = localStorage.getItem("user");
+// Check for persisted user & wallet
+const storedData = localStorage.getItem("auth");
+const parsedData = storedData ? JSON.parse(storedData) : null;
 
 const useAuthStore = create((set) => ({
-  user: storedUser ? JSON.parse(storedUser) : null,
+  user: parsedData?.user || null,
+  wallet: parsedData?.wallet || null,
 
-  setUser: (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    set({ user: userData });
+  setUser: ({ user, wallet }) => {
+    const data = { user, wallet };
+    localStorage.setItem("auth", JSON.stringify(data));
+    set(data);
   },
 
   logout: () => {
-    localStorage.removeItem("user");
-    set({ user: null });
+    localStorage.removeItem("auth");
+    set({ user: null, wallet: null });
   },
 }));
 

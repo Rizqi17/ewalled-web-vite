@@ -9,9 +9,11 @@ import useAuthStore from "../store/authStore";
 
 function HomePage() {
   const user = useAuthStore((state) => state.user);
+  const wallet = useAuthStore((state) => state.wallet);
 
   useEffect(() => {
-    console.log("Logged in user:", user);
+    console.log("Logged in user:", user.username);
+    console.log("wallet:", wallet.balance);
   }, [user]);
   return (
     <>

@@ -8,11 +8,6 @@ import useAuthStore from "../store/authStore";
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// const mockUsers = [
-//   { email: "test@gmail.com", password: "Password123!" },
-//   { email: "chelsea@gmail.com", password: "Password123!" },
-// ];
-
 function LoginPage() {
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
@@ -47,7 +42,10 @@ function LoginPage() {
         }
       );
 
-      setUser(data);
+      setUser({
+        user: data.user,
+        wallet: data.wallet,
+      });
       navigate("/home");
     } catch (err) {
       const message = "Email atau password salah.";
