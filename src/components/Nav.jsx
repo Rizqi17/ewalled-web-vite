@@ -2,9 +2,16 @@ import "../styles/components/Nav.css";
 import logo from "../assets/logo.svg";
 import mode from "../assets/mode.svg";
 import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/authStore";
 
 function Nav() {
   const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleSignOut = () => {
+    logout();
+    navigate("/login");
+  };
   return (
     <nav className="nav">
       <img
@@ -26,7 +33,7 @@ function Nav() {
         <Link to="/topup" className="nav-link">
           Topup
         </Link>
-        <Link to="/login" className="nav-link">
+        <Link to="/login" className="nav-link" onClick={handleSignOut}>
           Sign Out
         </Link>
         <div className="vertical-line" />
