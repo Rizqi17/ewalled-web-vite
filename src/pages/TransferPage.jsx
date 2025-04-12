@@ -66,6 +66,8 @@ function TransferPage() {
       newErrors.accountNumber = "Account number is required.";
     } else if (!/^\d+$/.test(accountNumber)) {
       newErrors.accountNumber = "Account number must be numeric.";
+    } else if (accountNumber === wallet.accountNumber) {
+      newErrors.accountNumber = "You cannot transfer to your own account.";
     }
 
     if (!amount.trim()) {
