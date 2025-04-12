@@ -114,3 +114,54 @@
   font-size: 0.875rem;
   margin-bottom: 8px;
 }
+
+.terms-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.terms-popup {
+  background: #fff;
+  width: 500px;
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.terms-header {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.terms-title {
+  text-align: left;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.terms-content {
+  margin-top: 20px;
+  text-align: left;
+}

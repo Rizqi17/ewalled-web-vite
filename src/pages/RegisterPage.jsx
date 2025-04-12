@@ -1,11 +1,11 @@
 // src/pages/RegisterPage.jsx
 import registerBg from "../assets/loginregister.png";
 import logo from "../assets/logo-loginregister.svg";
+import backIcon from "../assets/back.png"; // <- gambar tombol back
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 import { useState } from "react";
 import axios from "axios";
-
 
 const existingUsers = [
   { email: "test@gmail.com", username: "test", password: "Password123!" },
@@ -85,8 +85,14 @@ function RegisterPage() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    if (validate()) {
-      setShowTerms(true);
+    const isValid = validate();
+
+    if (isValid) {
+      if (agree) {
+        handleAgree(); // langsung daftar
+      } else {
+        setShowTerms(true); // tampilkan popup jika belum centang
+      }
     }
   };
 
@@ -112,7 +118,7 @@ function RegisterPage() {
     }
   };
 
-  const handleCancel = () => {
+  const handleBack = () => {
     setShowTerms(false);
   };
 
@@ -121,62 +127,29 @@ function RegisterPage() {
       <div className="register-left">
         <img src={logo} alt="logo" className="logo" />
         <form className="register-form" onSubmit={handleRegister}>
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          {errors.name && <p className="error" id="name-error">{errors.name}</p>}
+          <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+          {errors.name && <p className="error">{errors.name}</p>}
 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          {errors.username && <p className="error" id="username-error">{errors.username}</p>}
+          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          {errors.username && <p className="error">{errors.username}</p>}
 
-          <input
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {errors.email && <p className="error" id="email-error">{errors.email}</p>}
+          <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          {errors.email && <p className="error">{errors.email}</p>}
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {errors.password && <p className="error" id="password-error">{errors.password}</p>}
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          {errors.password && <p className="error">{errors.password}</p>}
 
-          <input
-            type="text"
-            placeholder="No HP (optional)"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          {errors.phone && <p className="error" id="phone-error">{errors.phone}</p>}
+          <input type="text" placeholder="No HP (optional)" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          {errors.phone && <p className="error">{errors.phone}</p>}
 
-          <input
-            type="text"
-            placeholder="Avatar URL (optional)"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-          />
-          {errors.avatarUrl && <p className="error" id="avatarUrl-error">{errors.avatarUrl}</p>}
+          <input type="text" placeholder="Avatar URL (optional)" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
+          {errors.avatarUrl && <p className="error">{errors.avatarUrl}</p>}
 
           <label className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={agree}
-              onChange={(e) => setAgree(e.target.checked)}
-            />
+            <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
             Saya setuju dengan <span onClick={() => setShowTerms(true)} className="terms-link">Syarat & Ketentuan</span>
           </label>
-          {errors.agree && <p className="error" id="agree-error">{errors.agree}</p>}
+          {errors.agree && <p className="error">{errors.agree}</p>}
 
           <button type="submit">Daftar</button>
         </form>
@@ -191,7 +164,10 @@ function RegisterPage() {
       {showTerms && (
         <div className="terms-overlay">
           <div className="terms-popup">
-            <h2>Syarat & Ketentuan</h2>
+            <div className="terms-header">
+              <img src={backIcon} alt="Back" className="back-icon" onClick={handleBack} />
+              <h2 className="terms-title">Syarat & Ketentuan</h2>
+            </div>
             <div className="terms-content">
               <p>
                 Dengan mendaftar, Anda menyetujui syarat dan ketentuan penggunaan layanan e-wallet ini, termasuk pengelolaan data pribadi, keamanan transaksi, dan kepatuhan terhadap hukum yang berlaku.
@@ -199,10 +175,6 @@ function RegisterPage() {
               <p>
                 Pastikan Anda telah membaca dan memahami ketentuan yang berlaku sebelum melanjutkan pendaftaran.
               </p>
-            </div>
-            <div className="terms-buttons">
-              <button onClick={handleAgree}>Setuju</button>
-              <button onClick={handleCancel}>Batal</button>
             </div>
           </div>
         </div>
