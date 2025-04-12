@@ -6,7 +6,7 @@ function AmountInput({ label, value, onChange, balance }) {
     <div className="amount-container">
       <div className="amount-label">{label}</div>
       <input
-        type="text"
+        type="numeric"
         value={value}
         onChange={onChange}
         placeholder="Enter amount"
