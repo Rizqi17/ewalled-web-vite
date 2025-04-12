@@ -1,25 +1,22 @@
 import loginBg from "../assets/loginregister.png";
 import logo from "../assets/logo-loginregister.svg";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 import { useState } from "react";
+import useAuthStore from "../store/authStore";
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// Simulasi user seperti di versi mobile
-const mockUsers = [
-  { email: "test@gmail.com", password: "Password123!" },
-  { email: "chelsea@gmail.com", password: "Password123!" },
-];
-
 function LoginPage() {
   const navigate = useNavigate();
+  const { setUser } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
@@ -35,18 +32,26 @@ function LoginPage() {
       return;
     }
 
-    const user = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
+    try {
+      const { data } = await axios.post(
+        "https://ewalled-api-production.up.railway.app/api/auth/login", // for production
+        // "http://localhost:8080/api/auth/login", // for local testing
+        {
+          email,
+          password,
+        }
+      );
 
-    if (!user) {
-      setEmailError("Email atau password salah.");
-      setPasswordError("Email atau password salah.");
-      return;
+      setUser({
+        user: data.user,
+        wallet: data.wallet,
+      });
+      navigate("/home");
+    } catch (err) {
+      const message = "Email atau password salah.";
+      setEmailError(message);
+      setPasswordError(message);
     }
-
-    // Jika berhasil login
-    navigate("/");
   };
 
   return (
