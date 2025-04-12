@@ -140,13 +140,7 @@ function TransactionTable() {
                   {new Date(transaction.transactionDate).toLocaleString()}
                 </td>
                 <td>{transaction.transactionType}</td>
-                <td>
-                  {transaction.transactionType === "TRANSFER"
-                    ? transaction.recipientWalletId === wallet.id
-                      ? `From: ${transaction.walletId}`
-                      : `To: ${transaction.recipientWalletId}`
-                    : "-"}
-                </td>
+                <td>{transaction.fromTo}</td>
                 <td>{transaction.description || "-"}</td>
                 <td style={{ color: amountColor }}>
                   {amountPrefix} {formatToRupiah(transaction.amount)}
