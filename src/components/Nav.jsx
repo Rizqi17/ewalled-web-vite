@@ -14,7 +14,7 @@ function Nav() {
         onClick={() => navigate("/")}
       />
       <div className="nav-links">
-        <Link to="/" className="nav-link">
+        <Link to="/home" className="nav-link">
           Dashboard
         </Link>
         <Link to="/financialoverview" className="nav-link">
