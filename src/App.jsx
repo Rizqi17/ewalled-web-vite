@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import TransferPage from "./pages/TransferPage";
 import TopUpPage from "./pages/TopUpPage";
-import FinancialPage from "./pages/FinancialPage";
+import FinancialOverviewPage from "./pages/FinancialOverviewPage";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/transfer" element={<TransferPage />} />
       <Route path="/topup" element={<TopUpPage />} />
-      <Route path="/financialoverview" element={<FinancialPage />} />
+      <Route path="/financialoverview" element={<FinancialOverviewPage />} />
     </Routes>
   );
 }

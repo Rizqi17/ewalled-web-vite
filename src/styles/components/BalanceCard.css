@@ -1,0 +1,11 @@
+.balance-card {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .balance-amount {
+    font-size: 1.3rem;
+    color: black;
+  }
+  

@@ -1,0 +1,14 @@
+.overview-page {
+    padding: 40px;
+  }
+  .inout-section {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+  }
+  .chart-section {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+  
