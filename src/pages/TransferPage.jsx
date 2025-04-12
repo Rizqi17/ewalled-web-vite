@@ -21,6 +21,7 @@ function TransferPage() {
   const [showFailedPopup, setShowFailedPopup] = useState(false);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
+  const [errors, setErrors] = useState({});
   const { wallet, updateWalletBalance } = useAuthStore();
   const balance = wallet.balance;
 
@@ -41,13 +42,35 @@ function TransferPage() {
     return Number(str.replace(/[^0-9,-]+/g, "").replace(",", "."));
   };
 
-  const handleTransfer = async () => {
-    const amountNumber = parseCurrency(amount);
+  const validateTransfer = () => {
+    const newErrors = {};
+    const amountNumber = parseFloat(amount);
 
-    if (!accountNumber || !amountNumber) {
-      setShowFailedPopup(true);
-      return;
+    if (!accountNumber.trim()) {
+      newErrors.accountNumber = "Account number is required.";
+    } else if (!/^\d+$/.test(accountNumber)) {
+      newErrors.accountNumber = "Account number must be numeric.";
     }
+
+    if (!amount.trim()) {
+      newErrors.amount = "Amount is required.";
+    } else if (isNaN(amountNumber) || amountNumber <= 0) {
+      newErrors.amount = "Amount must be a number greater than 0.";
+    } else if (amountNumber > parseFloat(wallet.balance)) {
+      newErrors.amount = "Insufficient balance.";
+    }
+
+    if (note.length > 100) {
+      newErrors.note = "Note is too long (max 100 characters).";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleTransfer = async () => {
+    if (!validateTransfer()) return;
+    const amountNumber = parseCurrency(amount);
 
     try {
       const payload = {
@@ -85,24 +108,29 @@ function TransferPage() {
               <label>To (Account Number)</label>
               <div className="search-input-wrapper">
                 <input
-                  type="text"
+                  type="numeric"
                   placeholder="Enter account number"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                 />
+
                 <button onClick={handleSearch} className="search-button">
                   <img src={searchIcon} alt="Search" />
                 </button>
               </div>
+              {errors.accountNumber && (
+                <p className="error-text">{errors.accountNumber}</p>
+              )}
             </div>
-
             <AmountInput
               label="Amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               balance={balance}
             />
+            {errors.amount && <p className="error-text">{errors.amount}</p>}
             <NoteInput value={note} onChange={(e) => setNote(e.target.value)} />
+            {errors.note && <p className="error-text">{errors.note}</p>}
             <PrimaryButton text="Transfer" onClick={handleTransfer} />
           </div>
         </div>
