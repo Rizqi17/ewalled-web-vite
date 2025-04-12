@@ -1,32 +1,63 @@
 import "../styles/components/TransactionTable.css";
-import { useState } from "react";
-import { transactions } from "../data/transactions";
+import { useState, useEffect } from "react";
+// import { transactions } from "../data/transactions";
+import axios from "axios";
+import useAuthStore from "../store/authStore";
+import { formatToRupiah } from "../util/formatToRupiah";
 
 function TransactionTable() {
+  const wallet = useAuthStore((state) => state.wallet);
+  const [transactions, setTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    if (wallet?.id) {
+      axios
+        .get(
+          `https://ewalled-api-production.up.railway.app/api/transactions?walletId=${wallet.id}`
+        )
+        .then((res) => setTransactions(res.data))
+        .catch((err) => console.error("Failed to fetch transactions", err));
+    }
+  }, [wallet?.id]);
+
   const filtered = transactions.filter(
     (transaction) =>
-      transaction.date.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      transaction.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      transaction.fromTo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      transaction.transactionDate
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      transaction.transactionType
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const sorted = filtered.sort((a, b) => {
-    const fieldA = sortField === "amount" ? a.amount : a.date;
-    const fieldB = sortField === "amount" ? b.amount : b.date;
+    const getSignedAmount = (transaction) => {
+      const isIncomingTransfer =
+        transaction.transactionType === "TRANSFER" &&
+        transaction.recipientWalletId === wallet.id;
+      const isTopUp = transaction.transactionType === "TOP_UP";
+
+      const isPositive = isTopUp || isIncomingTransfer;
+      return isPositive ? transaction.amount : -transaction.amount;
+    };
+
+    const valueA =
+      sortField === "amount" ? getSignedAmount(a) : new Date(a.transactionDate);
+    const valueB =
+      sortField === "amount" ? getSignedAmount(b) : new Date(b.transactionDate);
+
     if (sortOrder === "asc") {
-      return fieldA > fieldB ? 1 : -1;
+      return valueA - valueB;
     } else {
-      return fieldA < fieldB ? 1 : -1;
+      return valueB - valueA;
     }
   });
-
   const totalPages = Math.ceil(sorted.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
   const paginated = sorted.slice(startIdx, startIdx + itemsPerPage);
@@ -89,22 +120,40 @@ function TransactionTable() {
           </tr>
         </thead>
         <tbody>
-          {paginated.map((transaction, index) => (
-            <tr
-              key={transaction.id}
-              className={index % 2 === 0 ? "even" : "odd"}
-            >
-              <td>{transaction.date}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.fromTo}</td>
-              <td>{transaction.description}</td>
-              <td style={{ color: transaction.amount > 0 ? "green" : "red" }}>
-                {transaction.amount > 0
-                  ? `+ ${transaction.amount.toLocaleString()}`
-                  : `- ${Math.abs(transaction.amount).toLocaleString()}`}
-              </td>
-            </tr>
-          ))}
+          {paginated.map((transaction, index) => {
+            const isIncomingTransfer =
+              transaction.transactionType === "TRANSFER" &&
+              transaction.recipientWalletId === wallet.id;
+
+            const isTopUp = transaction.transactionType === "TOP_UP";
+
+            const isPositive = isTopUp || isIncomingTransfer;
+            const amountColor = isPositive ? "green" : "red";
+            const amountPrefix = isPositive ? "+" : "-";
+
+            return (
+              <tr
+                key={transaction.id}
+                className={index % 2 === 0 ? "even" : "odd"}
+              >
+                <td>
+                  {new Date(transaction.transactionDate).toLocaleString()}
+                </td>
+                <td>{transaction.transactionType}</td>
+                <td>
+                  {transaction.transactionType === "TRANSFER"
+                    ? transaction.recipientWalletId === wallet.id
+                      ? `From: ${transaction.walletId}`
+                      : `To: ${transaction.recipientWalletId}`
+                    : "-"}
+                </td>
+                <td>{transaction.description || "-"}</td>
+                <td style={{ color: amountColor }}>
+                  {amountPrefix} {formatToRupiah(transaction.amount)}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <div className="pagination">
