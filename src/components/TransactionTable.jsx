@@ -28,9 +28,6 @@ function TransactionTable() {
 
   const filtered = transactions.filter(
     (transaction) =>
-      transaction.transactionDate
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
       transaction.transactionType
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||

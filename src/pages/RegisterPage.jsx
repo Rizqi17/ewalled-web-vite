@@ -1,6 +1,7 @@
 // src/pages/RegisterPage.jsx
 import registerBg from "../assets/loginregister.png";
 import logo from "../assets/logo-loginregister.svg";
+import backIcon from "../assets/back.png"; // <- gambar tombol back
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 import { useState } from "react";
@@ -81,7 +82,7 @@ function RegisterPage() {
     e.preventDefault();
     if (validate()) {
       setCanSubmit(true);
-      setShowTerms(true);
+      handleAgree();
     }
   };
 
@@ -101,7 +102,7 @@ function RegisterPage() {
         }
       );
       console.log(response.data); // log
-      setShowTerms(false);
+      // setShowTerms(false);
       navigate("/login");
     } catch (error) {
       const msg = error.response?.data?.message;
@@ -120,9 +121,9 @@ function RegisterPage() {
     }
   };
 
-  const handleCancel = () => {
+  const handleBack = () => {
     setShowTerms(false);
-    setCanSubmit(false);
+    // setCanSubmit(false);
   };
 
   return (
@@ -206,9 +207,16 @@ function RegisterPage() {
               type="checkbox"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
+              disabled={!canSubmit}
             />
             Saya setuju dengan{" "}
-            <span onClick={() => setShowTerms(true)} className="terms-link">
+            <span
+              onClick={() => {
+                setShowTerms(true);
+                setCanSubmit(true);
+              }}
+              className="terms-link"
+            >
               Syarat & Ketentuan
             </span>
           </label>
@@ -218,7 +226,9 @@ function RegisterPage() {
             </p>
           )}
 
-          <button type="submit">Daftar</button>
+          <button type="submit" onClick={handleRegister}>
+            Daftar
+          </button>
         </form>
         <p className="login-text">
           Sudah punya akun? <Link to="/login">Login di sini</Link>
@@ -231,7 +241,15 @@ function RegisterPage() {
       {showTerms && (
         <div className="terms-overlay">
           <div className="terms-popup">
-            <h2>Syarat & Ketentuan</h2>
+            <div className="terms-header">
+              <img
+                src={backIcon}
+                alt="Back"
+                className="back-icon"
+                onClick={handleBack}
+              />
+              <h2 className="terms-title">Syarat & Ketentuan</h2>
+            </div>
             <div className="terms-content">
               <p>
                 Dengan mendaftar, Anda menyetujui syarat dan ketentuan
@@ -243,10 +261,6 @@ function RegisterPage() {
                 Pastikan Anda telah membaca dan memahami ketentuan yang berlaku
                 sebelum melanjutkan pendaftaran.
               </p>
-            </div>
-            <div className="terms-buttons">
-              <button onClick={handleAgree}>Setuju</button>
-              <button onClick={handleCancel}>Batal</button>
             </div>
           </div>
         </div>

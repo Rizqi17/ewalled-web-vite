@@ -50,8 +50,14 @@
   width: 100%;
 }
 
-.register-form button:hover {
-  background-color: #004ad6;
+.register-form button:active {
+  background-color: #003bb5;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .login-text {
@@ -109,8 +115,31 @@
   cursor: pointer;
 }
 
+.terms-link {
+  color: #0061ff;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .error {
   color: red;
   font-size: 0.875rem;
   margin-bottom: 8px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
