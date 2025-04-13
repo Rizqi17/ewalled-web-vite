@@ -248,7 +248,7 @@ function RegisterPage() {
                 className="back-icon"
                 onClick={handleBack}
               />
-              <h2 className="terms-title">Syarat & Ketentuan</h2>
+              <h2 className="terms-title"> Syarat & Ketentuan</h2>
             </div>
             <div className="terms-content">
               <p>
