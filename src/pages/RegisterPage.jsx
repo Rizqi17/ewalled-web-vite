@@ -7,12 +7,6 @@ import "../styles/RegisterPage.css";
 import { useState } from "react";
 import axios from "axios";
 
-
-const existingUsers = [
-  { email: "test@gmail.com", username: "test", password: "Password123!" },
-  { email: "chelsea@gmail.com", password: "Password123!" },
-];
-
 function RegisterPage() {
   const navigate = useNavigate();
 
@@ -87,7 +81,8 @@ function RegisterPage() {
   const handleRegister = (e) => {
     e.preventDefault();
     if (validate()) {
-      setShowTerms(true);
+      setCanSubmit(true);
+      handleAgree();
     }
   };
 
@@ -107,7 +102,7 @@ function RegisterPage() {
         }
       );
       console.log(response.data); // log
-      setShowTerms(false);
+      // setShowTerms(false);
       navigate("/login");
     } catch (error) {
       const msg = error.response?.data?.message;
@@ -128,7 +123,7 @@ function RegisterPage() {
 
   const handleBack = () => {
     setShowTerms(false);
-    setCanSubmit(false);
+    // setCanSubmit(false);
   };
 
   return (
@@ -142,7 +137,11 @@ function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {errors.name && <p className="error" id="name-error">{errors.name}</p>}
+          {errors.name && (
+            <p className="error" id="name-error">
+              {errors.name}
+            </p>
+          )}
 
           <input
             type="text"
@@ -150,14 +149,22 @@ function RegisterPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          {errors.username && <p className="error" id="username-error">{errors.username}</p>}
+          {errors.username && (
+            <p className="error" id="username-error">
+              {errors.username}
+            </p>
+          )}
 
           <input
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errors.email && <p className="error" id="email-error">{errors.email}</p>}
+          {errors.email && (
+            <p className="error" id="email-error">
+              {errors.email}
+            </p>
+          )}
 
           <input
             type="password"
@@ -165,7 +172,11 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && <p className="error" id="password-error">{errors.password}</p>}
+          {errors.password && (
+            <p className="error" id="password-error">
+              {errors.password}
+            </p>
+          )}
 
           <input
             type="text"
@@ -173,7 +184,11 @@ function RegisterPage() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          {errors.phone && <p className="error" id="phone-error">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="error" id="phone-error">
+              {errors.phone}
+            </p>
+          )}
 
           <input
             type="text"
@@ -181,19 +196,39 @@ function RegisterPage() {
             value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
           />
-          {errors.avatarUrl && <p className="error" id="avatarUrl-error">{errors.avatarUrl}</p>}
+          {errors.avatarUrl && (
+            <p className="error" id="avatarUrl-error">
+              {errors.avatarUrl}
+            </p>
+          )}
 
           <label className="checkbox-label">
             <input
               type="checkbox"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
+              disabled={!canSubmit}
             />
-            Saya setuju dengan <span onClick={() => setShowTerms(true)} className="terms-link">Syarat & Ketentuan</span>
+            Saya setuju dengan{" "}
+            <span
+              onClick={() => {
+                setShowTerms(true);
+                setCanSubmit(true);
+              }}
+              className="terms-link"
+            >
+              Syarat & Ketentuan
+            </span>
           </label>
-          {errors.agree && <p className="error" id="agree-error">{errors.agree}</p>}
+          {errors.agree && (
+            <p className="error" id="agree-error">
+              {errors.agree}
+            </p>
+          )}
 
-          <button type="submit">Daftar</button>
+          <button type="submit" onClick={handleRegister}>
+            Daftar
+          </button>
         </form>
         <p className="login-text">
           Sudah punya akun? <Link to="/login">Login di sini</Link>
@@ -207,8 +242,13 @@ function RegisterPage() {
         <div className="terms-overlay">
           <div className="terms-popup">
             <div className="terms-header">
-              <img src={backIcon} alt="Back" className="back-icon" onClick={handleBack} />
-              <h2 className="terms-title">Syarat & Ketentuan</h2>
+              <img
+                src={backIcon}
+                alt="Back"
+                className="back-icon"
+                onClick={handleBack}
+              />
+              <h2 className="terms-title"> Syarat & Ketentuan</h2>
             </div>
             <div className="terms-content">
               <p>

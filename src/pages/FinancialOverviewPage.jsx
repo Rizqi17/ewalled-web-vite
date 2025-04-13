@@ -5,14 +5,17 @@ import InOutCard from "../components/InOutCard";
 import BalanceCard from "../components/BalanceCard";
 import FinancialChart from "../components/FinancialChart";
 import "../styles/components/FinancialOverviewPage.css";
+import useAuthStore from "../store/authStore";
 
 const FinancialOverviewPage = () => {
+  const user = useAuthStore((state) => state.user);
+  const wallet = useAuthStore((state) => state.wallet);
   return (
     <div className="financial-overview-container">
       <Nav />
 
       <div className="financial-overview-content">
-        <Greeting />
+        <Greeting user={user} />
 
         <div className="inout-section">
           <InOutCard />
