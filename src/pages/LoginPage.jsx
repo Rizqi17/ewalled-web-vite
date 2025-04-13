@@ -94,7 +94,10 @@ function LoginPage() {
           <button type="submit">Login</button>
         </form>
         <p className="register-text">
-          Belum punya akun? <Link to="/register">Daftar di sini</Link>
+          Belum punya akun?{" "}
+          <Link to="/register" style={{ color: "blue" }}>
+            Daftar di sini
+          </Link>
         </p>
       </div>
       <div className="login-right">

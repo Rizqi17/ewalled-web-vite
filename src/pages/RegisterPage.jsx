@@ -231,7 +231,10 @@ function RegisterPage() {
           </button>
         </form>
         <p className="login-text">
-          Sudah punya akun? <Link to="/login">Login di sini</Link>
+          Sudah punya akun?{" "}
+          <Link to="/login" style={{ color: "blue" }}>
+            Login di sini
+          </Link>
         </p>
       </div>
       <div className="register-right">
@@ -242,12 +245,9 @@ function RegisterPage() {
         <div className="terms-overlay">
           <div className="terms-popup">
             <div className="terms-header">
-              <img
-                src={backIcon}
-                alt="Back"
-                className="back-icon"
-                onClick={handleBack}
-              />
+              <button className="back-button" onClick={handleBack}>
+                ← Back
+              </button>
               <h2 className="terms-title"> Syarat & Ketentuan</h2>
             </div>
             <div className="terms-content">
