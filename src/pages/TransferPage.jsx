@@ -22,14 +22,30 @@ function TransferPage() {
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState({});
-  const { wallet, updateWalletBalance } = useAuthStore();
+  const { wallet, fetchWalletByUserId } = useAuthStore();
   const balance = wallet.balance;
 
-  const handleSearch = () => {
-    if (accountNumber === "1234567890") {
-      setAccountName("Budi Santoso");
+  const handleSearch = async () => {
+    if (!accountNumber.trim() || !/^\d+$/.test(accountNumber)) {
+      setErrors({
+        accountNumber: "Please enter a valid numeric account number.",
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://ewalled-api-production.up.railway.app/api/wallets/check?accountNumber=${accountNumber}`
+      );
+
+      console.log(accountNumber);
+      const walletData = response.data;
+      setAccountName(walletData.fullName);
       setShowPopup(true);
-    } else {
+      setErrors({});
+    } catch (error) {
+      console.error("Account not found:", error);
+      setAccountName("");
       setShowPopupError(true);
     }
   };
@@ -50,6 +66,8 @@ function TransferPage() {
       newErrors.accountNumber = "Account number is required.";
     } else if (!/^\d+$/.test(accountNumber)) {
       newErrors.accountNumber = "Account number must be numeric.";
+    } else if (accountNumber === wallet.accountNumber) {
+      newErrors.accountNumber = "You cannot transfer to your own account.";
     }
 
     if (!amount.trim()) {
@@ -85,9 +103,7 @@ function TransferPage() {
         "https://ewalled-api-production.up.railway.app/api/transactions",
         payload
       );
-
-      const newBalance = Number(wallet.balance) - amountNumber;
-      updateWalletBalance(newBalance);
+      await fetchWalletByUserId(wallet.userId);
       console.log("Transfer response:", response.data);
       setShowSuccessPopup(true);
     } catch (error) {

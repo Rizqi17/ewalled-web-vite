@@ -10,17 +10,28 @@ import useAuthStore from "../store/authStore";
 function HomePage() {
   const user = useAuthStore((state) => state.user);
   const wallet = useAuthStore((state) => state.wallet);
+  const fetchWalletByUserId = useAuthStore(
+    (state) => state.fetchWalletByUserId
+  );
+  const fetchTransactionsByWalletId = useAuthStore(
+    (state) => state.fetchTransactionsByWalletId
+  );
   if (!user.avatarUrl) {
     user.avatarUrl = `https://avatar.iran.liara.run/username?username=${user?.fullname}`;
   }
 
   useEffect(() => {
-    if (user && wallet) {
-      console.log("Logged in user:", user);
-      console.log("Wallet balance:", wallet);
-      console.log(user.avatarUrl);
-    }
-  }, [user, wallet]);
+    const fetchData = async () => {
+      if (user?.id) {
+        await fetchWalletByUserId(user.id);
+        const updatedWallet = useAuthStore.getState().wallet;
+        if (updatedWallet?.id) {
+          await fetchTransactionsByWalletId(updatedWallet.id);
+        }
+      }
+    };
+    fetchData();
+  }, [user?.id]);
   return (
     <>
       <Nav />
