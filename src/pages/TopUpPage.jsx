@@ -18,7 +18,7 @@ function TopUpPage() {
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState({});
 
-  const { wallet, updateWalletBalance } = useAuthStore();
+  const { wallet, fetchWalletByUserId } = useAuthStore();
 
   const validateTopUp = () => {
     const newErrors = {};
@@ -61,8 +61,7 @@ function TopUpPage() {
         payload
       );
 
-      const newBalance = Number(wallet.balance) + parseFloat(amount);
-      updateWalletBalance(newBalance);
+      await fetchWalletByUserId(wallet.userId);
       setShowSuccessPopup(true);
     } catch (error) {
       console.error("Top up failed:", error);

@@ -7,23 +7,24 @@ import { formatToRupiah } from "../util/formatToRupiah";
 
 function TransactionTable() {
   const wallet = useAuthStore((state) => state.wallet);
-  const [transactions, setTransactions] = useState([]);
+  const transactions = useAuthStore((state) => state.transactions);
+  // const [transactions, setTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    if (wallet?.id) {
-      axios
-        .get(
-          `https://ewalled-api-production.up.railway.app/api/transactions?walletId=${wallet.id}`
-        )
-        .then((res) => setTransactions(res.data))
-        .catch((err) => console.error("Failed to fetch transactions", err));
-    }
-  }, [wallet?.id]);
+  // useEffect(() => {
+  //   if (wallet?.id) {
+  //     axios
+  //       .get(
+  //         `https://ewalled-api-production.up.railway.app/api/transactions?walletId=${wallet.id}`
+  //       )
+  //       .then((res) => setTransactions(res.data))
+  //       .catch((err) => console.error("Failed to fetch transactions", err));
+  //   }
+  // }, [wallet?.id]);
 
   const filtered = transactions.filter(
     (transaction) =>

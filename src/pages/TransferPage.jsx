@@ -22,7 +22,7 @@ function TransferPage() {
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState({});
-  const { wallet, updateWalletBalance } = useAuthStore();
+  const { wallet, fetchWalletByUserId } = useAuthStore();
   const balance = wallet.balance;
 
   const handleSearch = async () => {
@@ -103,9 +103,7 @@ function TransferPage() {
         "https://ewalled-api-production.up.railway.app/api/transactions",
         payload
       );
-
-      const newBalance = Number(wallet.balance) - amountNumber;
-      updateWalletBalance(newBalance);
+      await fetchWalletByUserId(wallet.userId);
       console.log("Transfer response:", response.data);
       setShowSuccessPopup(true);
     } catch (error) {
