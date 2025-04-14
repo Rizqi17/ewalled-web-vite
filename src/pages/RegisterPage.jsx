@@ -112,6 +112,10 @@ function RegisterPage() {
       if (msg?.toLowerCase().includes("username")) {
         newErrors.username = msg;
       }
+      if (msg?.toLowerCase().includes("phone")) {
+        newErrors.phone = msg;
+      }
+
       console.error(
         "Registration error:",
         error.response?.data || error.message
