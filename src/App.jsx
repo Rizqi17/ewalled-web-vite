@@ -5,17 +5,49 @@ import RegisterPage from "./pages/RegisterPage";
 import TransferPage from "./pages/TransferPage";
 import TopUpPage from "./pages/TopUpPage";
 import FinancialOverviewPage from "./pages/FinancialOverviewPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Routes>
+      {/* public routes */}
       <Route path="/" element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/home" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/transfer" element={<TransferPage />} />
-      <Route path="/topup" element={<TopUpPage />} />
-      <Route path="/financialoverview" element={<FinancialOverviewPage />} />
+
+      {/* protected routes */}
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/transfer"
+        element={
+          <ProtectedRoute>
+            <TransferPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/topup"
+        element={
+          <ProtectedRoute>
+            <TopUpPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/financialoverview"
+        element={
+          <ProtectedRoute>
+            <FinancialOverviewPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
