@@ -16,7 +16,7 @@ function Greeting({ user }) {
   return (
     <section className="greetings">
       <div className="greetings-text">
-        <h1>Good Morning, {capitalizedFirstName}!</h1>
+        <h1>Hello, {capitalizedFirstName}!</h1>
         <p>Check all your incoming and outgoing transactions here</p>
       </div>
       <div className="profile">

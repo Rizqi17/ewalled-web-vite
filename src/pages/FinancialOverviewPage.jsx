@@ -6,6 +6,8 @@ import BalanceCard from "../components/BalanceCard";
 import FinancialChart from "../components/FinancialChart";
 // import "../styles/components/FinancialOverviewPage.css";
 // import useAuthStore from "../store/authStore";
+import { FiTrendingUp, FiTrendingDown } from "react-icons/fi";
+
 
 import { useEffect, useState } from "react";
 import { VictoryChart, VictoryGroup, VictoryBar, VictoryAxis, VictoryLegend } from "victory";
@@ -67,9 +69,20 @@ function FinancialOverviewPage() {
       <div className="balance-chart-wraper"  >
       <div className="balance-card-financial">
         <p className="label">Net Balance</p>
-        <p className={`value ${selectedData.netBalance < 0 ? "negative" : "positive"}`}>
+
+        {selectedData.netBalance < 0 ? (
+          <div style={{ display: "flex", alignItems:"center",flexDirection: "row", gap: 10 }}>
+            <FiTrendingDown className="trend-icon" size={24} style={{ color: "#f47c2c" }} />
+            <p className="value-negative"> Rp {selectedData.netBalance.toLocaleString("id-ID")}</p>
+            </div>
+        ) : (
+          <div style={{ display: "flex", alignItems:"center",flexDirection: "row", gap: 10 }}>
+           <FiTrendingUp className="trend-icon" size={24} style={{ color: "green" }} />
+            <p className="value-positive">
           Rp {selectedData.netBalance.toLocaleString("id-ID")}
         </p>
+            </div>
+        )}
       </div>
 
       <div className="chart-container">
