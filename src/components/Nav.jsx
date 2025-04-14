@@ -18,7 +18,7 @@ function Nav() {
         src={logo}
         height="40px"
         style={{ cursor: "pointer" }}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
       />
       <div className="nav-links">
         <Link to="/home" className="nav-link">
@@ -36,10 +36,10 @@ function Nav() {
         <Link to="/login" className="nav-link" onClick={handleSignOut}>
           Sign Out
         </Link>
-        <div className="vertical-line" />
+        {/* <div className="vertical-line" />
         <a href="#" className="nav-link" id="mode">
           <img src={mode} height="26px" width="26px" />
-        </a>
+        </a> */}
       </div>
     </nav>
   );
