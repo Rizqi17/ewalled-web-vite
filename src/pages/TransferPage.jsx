@@ -107,8 +107,14 @@ function TransferPage() {
       console.log("Transfer response:", response.data);
       setShowSuccessPopup(true);
     } catch (error) {
-      console.error("Transfer failed:", error);
-      setShowFailedPopup(true);
+      const msg = error.response?.data?.message;
+      if (msg?.toLowerCase().includes("not found")) {
+        const errorMessage = "Account number not found.";
+        console.error(errorMessage);
+        setShowPopupError(true);
+      } else {
+        setShowFailedPopup(true);
+      }
     }
   };
 
